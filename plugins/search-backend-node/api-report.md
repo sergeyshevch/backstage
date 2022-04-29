@@ -5,6 +5,7 @@
 ```ts
 /// <reference types="node" />
 
+import { Config } from '@backstage/config';
 import { DocumentCollatorFactory } from '@backstage/plugin-search-common';
 import { DocumentDecoratorFactory } from '@backstage/plugin-search-common';
 import { DocumentTypeInfo } from '@backstage/plugin-search-common';
@@ -19,6 +20,7 @@ import { SearchQuery } from '@backstage/plugin-search-common';
 import { TaskFunction } from '@backstage/backend-tasks';
 import { TaskRunner } from '@backstage/backend-tasks';
 import { Transform } from 'stream';
+import { UrlReader } from '@backstage/backend-common';
 import { Writable } from 'stream';
 
 // @beta
@@ -107,6 +109,28 @@ export class LunrSearchEngineIndexer extends BatchSearchEngineIndexer {
   // (undocumented)
   initialize(): Promise<void>;
 }
+
+// @beta
+export class NewlineDelimitedJsonCollatorFactory
+  implements DocumentCollatorFactory
+{
+  static fromConfig(
+    _config: Config,
+    options: NewlineDelimitedJsonCollatorFactoryOptions,
+  ): NewlineDelimitedJsonCollatorFactory;
+  // (undocumented)
+  getCollator(): Promise<Readable>;
+  // (undocumented)
+  readonly type: string;
+}
+
+// @beta (undocumented)
+export type NewlineDelimitedJsonCollatorFactoryOptions = {
+  type: string;
+  searchPattern: string;
+  reader: UrlReader;
+  logger: Logger;
+};
 
 // @beta
 export interface RegisterCollatorParameters {
